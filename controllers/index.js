@@ -25,5 +25,19 @@ function getArticleComments(req, res, next) {
           });    
 }
 
+function postArticleComment(req, res, next) {
+    let articleId = req.params.article_id;
+    let comment = req.body
+    let newComment = new Comments({
+        body: comment.body,
+        belongs_to: articleId
+    })
+        .save()
+        .then((newComment) => {
+            res.send(newComment)
+        })
+        .catch((err) => next(err));
+}
 
-module.exports = { getArticles, getArticleComments };
+
+module.exports = { getArticles, getArticleComments, postArticleComment };

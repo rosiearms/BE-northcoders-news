@@ -53,6 +53,21 @@ describe('API', () => {
         });
 
 
+	});
+	
+	describe('POST /articles/:article_id/comments', () => {
+        it('adds a comment to the correct article with a status code of 200', () => {
+            return request(app)
+                .post(`/api/articles/${usefulData.articles[0]._id}/comments`)
+                .send({ "body": "This is a great article", "belongs_to": `${usefulData.articles[0]._id}` })
+                .expect(200)
+                .then(res => {
+                    expect(res.body).to.be.an('object');
+                    expect(res.body.body).to.equal('This is a great article');
+                });
+        });
+
+
     });
 
 	
