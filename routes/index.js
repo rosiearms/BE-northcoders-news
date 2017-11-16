@@ -2,7 +2,7 @@ const router = require('express').Router();
 const articlesRouter = require('./articles');
 
 
-router.use('/', articlesRouter);
+router.use('/articles', articlesRouter);
 
 
 

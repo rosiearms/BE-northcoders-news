@@ -5,7 +5,7 @@ const { expect } = require('chai');
 const request = require('supertest');
 const saveTestData = require('../seed/test.seed');
 const app = require('../server');
-const { Articles } = require('../models/models');
+const { Articles, Comments } = require('../models/models');
 
 describe('API', () => {
 	let usefulData;
@@ -30,4 +30,30 @@ describe('API', () => {
 				});
 		});
 	});
+
+	describe('GET /articles/:article_id/comments', () => {
+        it('sends back the correct object with a status code of 200', () => {
+            return request(app)
+                .get(`/api/articles/${usefulData.articles[0]._id}/comments`)
+				.expect(200)
+                .then(res => {
+                    expect(res.body.comments).to.be.an('array');
+                    expect(res.body.comments.length).to.equal(2);
+                    expect(res.body.comments[0].body).to.be.a('string');
+                });
+        });
+        it('sends back a 404 error status when given invalid id', () => {
+            return request(app)
+                .get(`/api/articles/1/comments`)
+                .expect(404)
+                .then(res => {
+					const {message} = res.body;
+					expect(message).to.eql( 'ARTICLE_ID NOT FOUND');
+				  });
+        });
+
+
+    });
+
+	
 });
