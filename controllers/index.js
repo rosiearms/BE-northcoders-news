@@ -1,5 +1,5 @@
 
-const { Articles, Comments } = require('../models/models');
+const { Articles, Comments, Topics } = require('../models/models');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/northcoders-news-api', { useMongoClient: true });
 mongoose.Promise = Promise;
@@ -50,5 +50,15 @@ function putArticleVote(req, res, next) {
         .catch((err) => next(err));
 }
 
+function getTopics(req, res, next) {
+    Topics.find({})
+        .then((topics) => {
+            res.send({ topics });
+        })
+        .catch((err) => next(err));
 
-module.exports = { getArticles, getArticleComments, postArticleComment, putArticleVote };
+
+}
+
+
+module.exports = { getArticles, getArticleComments, postArticleComment, putArticleVote, getTopics };
