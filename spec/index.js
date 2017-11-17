@@ -50,9 +50,7 @@ describe('API', () => {
 					const {message} = res.body;
 					expect(message).to.eql( 'ARTICLE_ID NOT FOUND');
 				  });
-        });
-
-
+		});
 	});
 	
 	describe('POST /articles/:article_id/comments', () => {
@@ -65,10 +63,27 @@ describe('API', () => {
                     expect(res.body).to.be.an('object');
                     expect(res.body.body).to.equal('This is a great article');
                 });
+		});
+	});
+	
+	describe('PUT /api/articles/:article_id', () => {
+        it('increments the articles vote by one', () => {
+			let vote = usefulData.articles[0].votes;
+            return request(app)
+                .put(`/api/articles/${usefulData.articles[0]._id}?vote=up`)
+                .then(res => {
+                    expect(res.body.vote.votes).to.equal(vote + 1);
+                });
+        });
+        it('decrements the articles vote by one', () => {
+            let vote = usefulData.articles[0].votes;
+            return request(app)
+                .put(`/api/articles/${usefulData.articles[0]._id}?vote=down`)
+                .then(res => {
+                    expect(res.body.vote.votes).to.equal(vote - 1);
+                });
         });
 
 
     });
-
-	
 });

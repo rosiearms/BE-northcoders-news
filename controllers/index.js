@@ -39,5 +39,16 @@ function postArticleComment(req, res, next) {
         .catch((err) => next(err));
 }
 
+function putArticleVote(req, res, next) {
+    let inc = 0;
+    if (req.query.vote === 'up') inc = 1;
+    else if (req.query.vote === 'down') inc = -1;
+    Articles.findByIdAndUpdate(req.params.article_id, { $inc: { votes: inc } }, { new: true })
+        .then((vote) => {
+            res.send({ vote })
+        })
+        .catch((err) => next(err));
+}
 
-module.exports = { getArticles, getArticleComments, postArticleComment };
+
+module.exports = { getArticles, getArticleComments, postArticleComment, putArticleVote };
