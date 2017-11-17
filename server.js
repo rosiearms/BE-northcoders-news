@@ -17,10 +17,9 @@ mongoose.connect(db, { useMongoClient: true })
   .catch(err => console.log('connection failed', err));
 
 app.use(bodyParser.json());
-
+app.use(cors());
 app.use('/api', router);
 
-app.use(cors());
 
 app.use((err, req, res, next) => {
   if(err.status === 404) return res.status(404).send({message: err.message});

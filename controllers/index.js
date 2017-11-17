@@ -26,18 +26,19 @@ function getArticleComments(req, res, next) {
 }
 
 function postArticleComment(req, res, next) {
-    let articleId = req.params.article_id;
-    let comment = req.body
-    let newComment = new Comments({
-        body: comment.body,
-        belongs_to: articleId
-    })
-        .save()
-        .then((newComment) => {
-            res.send(newComment)
-        })
-        .catch((err) => next(err));
-}
+    const {article_id} = req.params;
+    const {comment, created_by = 'northcoder', created_at = Date.now()} = req.body;
+      if(/^\s*$/.test(comment)) return next({status: 400, message: 'INVALID INPUT'});
+      const newComment = new Comments({body:comment, created_by, belongs_to: article_id, created_at});
+      newComment.save()
+      .then(comment => {
+        res.status(201).send({comment});
+      })
+      .catch(err => {
+        if(err.name === 'ValidationError')   next({status: 400, message: 'INVALID INPUT'});
+        return next(err);
+      })
+    }
 
 function putArticleVote(req, res, next) {
     let inc = 0;
@@ -56,8 +57,6 @@ function getTopics(req, res, next) {
             res.send({ topics });
         })
         .catch((err) => next(err));
-
-
 }
 
 function getArticlesByTopic(req, res, next) {

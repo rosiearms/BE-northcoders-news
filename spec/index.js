@@ -53,18 +53,31 @@ describe('API', () => {
 		});
 	});
 	
-	describe('POST /articles/:article_id/comments', () => {
-        it('adds a comment to the correct article with a status code of 200', () => {
-            return request(app)
-                .post(`/api/articles/${usefulData.articles[0]._id}/comments`)
-                .send({ "body": "This is a great article", "belongs_to": `${usefulData.articles[0]._id}` })
-                .expect(200)
-                .then(res => {
-                    expect(res.body).to.be.an('object');
-                    expect(res.body.body).to.equal('This is a great article');
-                });
-		});
-	});
+	describe('POST api/:article_id/comments', () => {
+        it('it returns with a status code of 201 if successful', () => {
+          const article_id = usefulData.articles[0]._id;
+          const comment = 'test comment';
+          return request(app)
+            .post(`/api/articles/${article_id}/comments`)
+            .send({
+              comment
+            })
+            .expect(201);
+        });
+        it('returns the comment after successful post', () => {
+          const article_id = usefulData.articles[0]._id;
+          const comment = 'test comment';
+          return request(app)
+            .post(`/api/articles/${article_id}/comments`)
+            .send({
+              comment
+            })
+            .then((res) => {
+              const {body} = res.body.comment;
+              expect(body).to.equal(comment);
+            });
+        });
+      });
 	
 	describe('PUT /api/articles/:article_id', () => {
         it('increments the articles vote by one', () => {
