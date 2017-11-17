@@ -86,4 +86,15 @@ function deleteComment(req, res, next) {
         .catch((err) => next(err));
 }
 
-module.exports = { getArticles, getArticleComments, postArticleComment, putArticleVote, getTopics, getArticlesByTopic, getUserInfo, deleteComment };
+function putCommentVote(req, res, next) {
+    let inc = 0;
+    if (req.query.vote === 'up') inc = 1;
+    else if (req.query.vote === 'down') inc = -1;
+    Comments.findByIdAndUpdate(req.params.comment_id, { $inc: { votes: inc } }, { new: true })
+        .then((vote) => {
+            res.send({ vote })
+        })
+        .catch((err) => next(err));
+}
+
+module.exports = { getArticles, getArticleComments, postArticleComment, putArticleVote, getTopics, getArticlesByTopic, getUserInfo, deleteComment, putCommentVote };

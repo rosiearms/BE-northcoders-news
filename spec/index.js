@@ -133,4 +133,23 @@ describe('API', () => {
                 });
         });
     });
+
+    describe('PUT /api/comments/:comment_id', () => {
+        it('increments the comments vote by one', () => {
+            let vote = usefulData.comments[0].votes;
+            return request(app)
+                .put(`/api/comments/${usefulData.comments[0]._id}?vote=up`)
+                .then(res => {
+                    expect(res.body.vote.votes).to.equal(vote + 1);
+                });
+        });
+        it('decrements the comments vote by one', () => {
+            let vote = usefulData.comments[0].votes;
+            return request(app)
+                .put(`/api/comments/${usefulData.comments[0]._id}?vote=down`)
+                .then(res => {
+                    expect(res.body.vote.votes).to.equal(vote - 1);
+                });
+        });
+    });
 });
