@@ -110,4 +110,17 @@ describe('API', () => {
                 });
         });
     });
+
+    describe('GET /api/users/:username', () => {
+        it('Returns a JSON object with the profile data for the specified user', () => {
+            return request(app)
+                .get(`/api/users/${usefulData.user.username}`)
+                .then(res => {
+                    expect(res.body.username).to.equal(usefulData.user.username);
+                    expect(res.body.name).to.equal('Awesome Northcoder');
+                    expect(res.body.username).to.be.a('string');
+                    expect(res.body).to.be.an('object');
+                });
+        });
+    });
 });

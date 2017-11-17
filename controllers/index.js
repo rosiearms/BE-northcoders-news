@@ -1,5 +1,5 @@
 
-const { Articles, Comments, Topics } = require('../models/models');
+const { Articles, Comments, Topics, Users } = require('../models/models');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/northcoders-news-api', { useMongoClient: true });
 mongoose.Promise = Promise;
@@ -70,4 +70,12 @@ function getArticlesByTopic(req, res, next) {
         })
 }
 
-module.exports = { getArticles, getArticleComments, postArticleComment, putArticleVote, getTopics, getArticlesByTopic };
+function getUserInfo(req, res, next) {
+    Users.findOne({ username: req.params.username })
+        .then((profileData) => {
+            res.send(profileData)
+        })
+        .catch((err) => next(err));
+}
+
+module.exports = { getArticles, getArticleComments, postArticleComment, putArticleVote, getTopics, getArticlesByTopic, getUserInfo };
