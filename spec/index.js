@@ -123,4 +123,14 @@ describe('API', () => {
                 });
         });
     });
+
+    describe('DELETE /api/comments/:comment_id', () => {
+        it('removes a comment by comment id', () => {
+            return request(app)
+                .delete(`/api/comments/${usefulData.comments[0]._id}`)
+                .then(res => {
+                    expect(res.body.message).to.equal('deleted');
+                });
+        });
+    });
 });

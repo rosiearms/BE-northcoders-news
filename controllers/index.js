@@ -78,4 +78,12 @@ function getUserInfo(req, res, next) {
         .catch((err) => next(err));
 }
 
-module.exports = { getArticles, getArticleComments, postArticleComment, putArticleVote, getTopics, getArticlesByTopic, getUserInfo };
+function deleteComment(req, res, next) {
+    Comments.findByIdAndRemove(req.params.comment_id)
+        .then(() => {
+            res.send({ message: 'deleted' })
+        })
+        .catch((err) => next(err));
+}
+
+module.exports = { getArticles, getArticleComments, postArticleComment, putArticleVote, getTopics, getArticlesByTopic, getUserInfo, deleteComment };
