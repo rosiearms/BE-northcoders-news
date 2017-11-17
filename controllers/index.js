@@ -60,5 +60,14 @@ function getTopics(req, res, next) {
 
 }
 
+function getArticlesByTopic(req, res, next) {
+    Articles.find({ belongs_to: req.params.topic_id })
+        .then((articles) => {
+            res.send({ articles });
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+}
 
-module.exports = { getArticles, getArticleComments, postArticleComment, putArticleVote, getTopics };
+module.exports = { getArticles, getArticleComments, postArticleComment, putArticleVote, getTopics, getArticlesByTopic };

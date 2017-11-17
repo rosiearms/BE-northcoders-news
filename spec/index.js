@@ -97,4 +97,17 @@ describe('API', () => {
                 });
         });
     });
+
+    describe('GET /topics/:topic_id/articles', () => {
+        it('sends back the correct object with a status code of 200', () => {
+            return request(app)
+                .get(`/api/topics/${usefulData.articles[1].belongs_to}/articles`)
+                .expect(200)
+                .then(res => {
+                    expect(res.body.articles).to.be.an('array');
+                    expect(res.body.articles.length).to.equal(1);
+                    expect(res.body.articles[0].belongs_to).to.be.a('string');
+                });
+        });
+    });
 });
