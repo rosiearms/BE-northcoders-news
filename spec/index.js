@@ -5,7 +5,6 @@ const { expect } = require('chai');
 const request = require('supertest');
 const saveTestData = require('../seed/test.seed');
 const app = require('../server');
-const { Articles, Comments } = require('../models/models');
 
 describe('API', () => {
 	let usefulData;
@@ -25,8 +24,9 @@ describe('API', () => {
 				.expect(200)
 				.then(res => {
 					expect(res.body.articles).to.be.an('array');
-					expect(res.body.articles.length).to.equal(2);
-					expect(res.body.articles[0].belongs_to).to.be.a('string');
+					expect(res.body.articles.length).to.equal(usefulData.articles.length);
+                    expect(res.body.articles[0].belongs_to).to.be.a('string');
+                    expect(res.body.articles[0].belongs_to).to.eql(usefulData.articles[0].belongs_to);
 				});
 		});
 	});
@@ -38,7 +38,7 @@ describe('API', () => {
 				.expect(200)
                 .then(res => {
                     expect(res.body.comments).to.be.an('array');
-                    expect(res.body.comments.length).to.equal(2);
+                    expect(res.body.comments.length).to.equal(usefulData.comments.length);
                     expect(res.body.comments[0].body).to.be.a('string');
                 });
         });
@@ -55,26 +55,22 @@ describe('API', () => {
 	
 	describe('POST api/:article_id/comments', () => {
         it('it returns with a status code of 201 if successful', () => {
-          const article_id = usefulData.articles[0]._id;
-          const comment = 'test comment';
           return request(app)
-            .post(`/api/articles/${article_id}/comments`)
+            .post(`/api/articles/${usefulData.articles[0]._id}/comments`)
             .send({
-              comment
+              comment: 'test comment'
             })
             .expect(201);
         });
         it('returns the comment after successful post', () => {
-          const article_id = usefulData.articles[0]._id;
-          const comment = 'test comment';
           return request(app)
-            .post(`/api/articles/${article_id}/comments`)
+            .post(`/api/articles/${usefulData.articles[0]._id}/comments`)
             .send({
-              comment
+              comment: 'test comment'
             })
             .then((res) => {
               const {body} = res.body.comment;
-              expect(body).to.equal(comment);
+              expect(body).to.equal('test comment');
             });
         });
       });
@@ -105,8 +101,9 @@ describe('API', () => {
                 .expect(200)
                 .then(res => {
                     expect(res.body.topics).to.be.an('array');
-                    expect(res.body.topics.length).to.equal(3);
+                    expect(res.body.topics.length).to.equal(usefulData.topics.length);
                     expect(res.body.topics[0].slug).to.be.a('string');
+                    expect(res.body.topics[0].slug).to.eql(usefulData.topics[0].slug);
                 });
         });
     });
@@ -120,6 +117,7 @@ describe('API', () => {
                     expect(res.body.articles).to.be.an('array');
                     expect(res.body.articles.length).to.equal(1);
                     expect(res.body.articles[0].belongs_to).to.be.a('string');
+                    expect(res.body.articles[0].belongs_to).to.eql(usefulData.articles[1].belongs_to);
                 });
         });
     });
