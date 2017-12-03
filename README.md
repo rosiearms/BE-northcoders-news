@@ -50,9 +50,9 @@ You should receive a message saying you have successfully connected to the datab
 
 Once you have connected you can run the front-end project and view the website.
 
-# Tests
+# Tests 
 
-- To view the tests run:
+- To view the tests make sure the batabase is seeded and already running, then enter the command:
 
 ```npm test```
 
