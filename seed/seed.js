@@ -1,4 +1,4 @@
-var models = require('../models/models');
+var models = require('../models');
 var userData = require('./data/user_data.js');
 var articleData = require('./data/articles');
 var Chance = require('chance');

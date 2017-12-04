@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getArticles, getArticleComments, postArticleComment, putArticleVote } = require('../controllers');
+const { getArticles, getArticleComments, postArticleComment, putArticleVote } = require('../controllers/articles');
 
 router.get('/', getArticles);
 router.get('/:article_id/comments', getArticleComments);

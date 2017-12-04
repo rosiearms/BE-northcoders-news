@@ -33,6 +33,7 @@ describe('API', () => {
 
 	describe('GET /articles/:article_id/comments', () => {
         it('sends back the correct object with a status code of 200', () => {
+            console.log('useful data', usefulData.articles[0]._id);
             return request(app)
                 .get(`/api/articles/${usefulData.articles[0]._id}/comments`)
 				.expect(200)
@@ -53,7 +54,7 @@ describe('API', () => {
 		});
 	});
 	
-	describe('POST api/:article_id/comments', () => {
+	describe('POST api/articles/:article_id/comments', () => {
         it('it returns with a status code of 201 if successful', () => {
           return request(app)
             .post(`/api/articles/${usefulData.articles[0]._id}/comments`)

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { deleteComment, putCommentVote } = require('../controllers');
+const { deleteComment, putCommentVote } = require('../controllers/comments');
 
 
 router.delete('/:comment_id', deleteComment);
