@@ -33,7 +33,6 @@ describe('API', () => {
 
   describe('GET /articles/:article_id/comments', () => {
     it('sends back the correct object with a status code of 200', () => {
-      console.log('useful data', usefulData.articles[0]._id);
       return request(app)
         .get(`/api/articles/${usefulData.articles[0]._id}/comments`)
         .expect(200)
@@ -121,7 +120,7 @@ describe('API', () => {
           expect(res.body.articles[0].belongs_to).to.eql(usefulData.articles[1].belongs_to);
         });
     });
-    it('sends back a 404 error status when given invalid id', () => {
+    it('sends back a 404 error status when given invalid topic', () => {
       return request(app)
         .get('/api/topics/food/articles')
         .expect(404)
@@ -136,11 +135,21 @@ describe('API', () => {
     it('Returns a JSON object with the profile data for the specified user', () => {
       return request(app)
         .get(`/api/users/${usefulData.user.username}`)
+        .expect(200)
         .then(res => {
-          expect(res.body.username).to.equal(usefulData.user.username);
-          expect(res.body.name).to.equal('Awesome Northcoder');
-          expect(res.body.username).to.be.a('string');
-          expect(res.body).to.be.an('object');
+          expect(res.body.profileData[0].username).to.equal(usefulData.user.username);
+          expect(res.body.profileData[0].name).to.equal('Awesome Northcoder');
+          expect(res.body.profileData[0].username).to.be.a('string');
+          expect(res.body.profileData[0]).to.be.an('object');
+        });
+    });
+    it('sends back a 404 error status when given invalid username', () => {
+      return request(app)
+        .get('/api/users/notausername')
+        .expect(404)
+        .then(res => {
+          const {message} = res.body;
+          expect(message).to.eql( 'USERNAME NOT FOUND');
         });
     });
   });
