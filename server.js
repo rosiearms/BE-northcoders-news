@@ -26,8 +26,8 @@ app.use((err, req, res, next) => {
   if(err.status === 400) return res.status(400).send({message: err.message});
   else return next(err);
 });
-app.use('/*', (req, res) => {
-  res.status(404).send({message: 'Page not found'});
+app.use((err, req, res) => {
+  res.status(500).send({err});
 });
 
 
