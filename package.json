@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "pretest": "npm run lint",
     "test": "mocha spec",
-    "start": "node index.js"
+    "start": "node index.js",
+    "lint": "eslint ./",
+    "lint:fix": "npm run lint -- --fix",
+    "precommit": "npm test"
   },
   "repository": {
     "type": "git",
@@ -23,6 +27,7 @@
     "chai": "^4.1.2",
     "chance": "^1.0.4",
     "cors": "^2.8.4",
+    "eslint": "^4.12.1",
     "express": "^4.14.0",
     "log4js": "^1.0.1",
     "mocha": "^3.5.3",

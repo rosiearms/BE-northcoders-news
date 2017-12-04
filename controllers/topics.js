@@ -5,20 +5,20 @@ mongoose.Promise = Promise;
 
 function getTopics(req, res, next) {
   Topics.find({})
-      .then((topics) => {
-          res.send({ topics });
-      })
-      .catch((err) => next(err));
+    .then((topics) => {
+      res.send({ topics });
+    })
+    .catch((err) => next(err));
 }
 
-function getArticlesByTopic(req, res, next) {
+function getArticlesByTopic(req, res) {
   Articles.find({ belongs_to: req.params.topic_id })
-      .then((articles) => {
-          res.send({ articles });
-      })
-      .catch((err) => {
-          console.log(err);
-      })
+    .then((articles) => {
+      res.send({ articles });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 module.exports = {getTopics, getArticlesByTopic };
