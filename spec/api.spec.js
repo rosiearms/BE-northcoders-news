@@ -121,6 +121,15 @@ describe('API', () => {
           expect(res.body.articles[0].belongs_to).to.eql(usefulData.articles[1].belongs_to);
         });
     });
+    it('sends back a 404 error status when given invalid id', () => {
+      return request(app)
+        .get('/api/topics/food/articles')
+        .expect(404)
+        .then(res => {
+          const {message} = res.body;
+          expect(message).to.eql( 'TOPIC NOT FOUND');
+        });
+    });
   });
 
   describe('GET /api/users/:username', () => {
