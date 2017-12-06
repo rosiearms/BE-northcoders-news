@@ -93,6 +93,18 @@ describe('API', () => {
           expect(body).to.equal('test comment');
         });
     });
+    it('sends back a 400 error status if blank comment is posted', () => {
+      return request(app)
+        .post(`/api/articles/${usefulData.articles[0]._id}/comments`)
+        .send(
+          '        '
+        )
+        .expect(400)
+        .then(res => {
+          const {message} = res.body;
+          expect(message).to.equal('INVALID INPUT');
+        });
+    });
   });
 	
   describe('PUT /api/articles/:article_id', () => {
