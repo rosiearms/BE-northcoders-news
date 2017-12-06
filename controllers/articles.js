@@ -4,12 +4,22 @@ mongoose.connect('mongodb://localhost/northcoders-news-api', { useMongoClient: t
 mongoose.Promise = Promise;
 
 function getArticles(req, res, next) {
-  Articles.find({})
+  Articles.find({ })
     .then((articles) => {
       res.send({ articles });
     })
     .catch((err) => next(err));
+}
 
+function getSingleArticle(req, res, next) {
+  Articles.findById(req.params.article_id)
+    .then(article => {
+      res.send({article});
+    })
+    .catch(err => {
+      if(err.name === 'CastError') next({status: 400, message: 'ARTICLE_ID NOT FOUND'});
+      else next(err);
+    });
 }
 
 function putArticleVote(req, res, next) {
@@ -27,9 +37,9 @@ function getArticleComments(req, res, next) {
   Comments.find({ belongs_to: req.params.article_id })
     .then((comments) => {
       res.send({ comments });
-    })
+    })    
     .catch(err => {
-      if(err.name === 'CastError') next({status: 404, message: 'ARTICLE_ID NOT FOUND'});
+      if(err.name === 'CastError') next({status: 400, message: 'ARTICLE_ID NOT FOUND'});
       else next(err);
     });    
 }
@@ -49,4 +59,4 @@ function postArticleComment(req, res, next) {
     });
 }
 
-module.exports = {getArticles, putArticleVote, getArticleComments, postArticleComment };
+module.exports = {getArticles, putArticleVote, getArticleComments, postArticleComment, getSingleArticle };

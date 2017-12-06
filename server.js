@@ -16,11 +16,13 @@ mongoose.connect(db, { useMongoClient: true })
   .then(() => console.log('successfully connected to', db))
   .catch(err => console.log('connection failed', err));
 
-app.use(bodyParser.json());
 app.use(cors());
+app.use(bodyParser.json());
 app.use('/api', router);
 
-
+app.use('/*', (req, res) => {
+  res.status(404).send({message: 'Page not found'});
+});
 app.use((err, req, res, next) => {
   if(err.status === 404) return res.status(404).send({message: err.message});
   if(err.status === 400) return res.status(400).send({message: err.message});

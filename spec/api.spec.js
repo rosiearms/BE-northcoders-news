@@ -17,7 +17,7 @@ describe('API', () => {
       .catch(err => console.log('err!', err));
   });
 
-  describe.only('GET /articles', () => {
+  describe('GET /articles', () => {
     it('sends back the correct object with a status code of 200', () => {
       return request(app)
         .get('/api/articles')
@@ -26,6 +26,27 @@ describe('API', () => {
           expect(res.body.articles).to.be.an('array');
           expect(res.body.articles.length).to.equal(usefulData.articles.length);
           expect(res.body.articles[0].belongs_to).to.be.a('string');
+        });
+    });
+  });
+
+  describe('GET api/article/:article_id', () => {
+    it('returns with a status code of 200 if successful and the data', () => {
+      return request(app)
+        .get(`/api/articles/${usefulData.articles[0]._id}`)
+        .expect(200)
+        .then(res => {
+          expect(res.body.article).to.be.an('object');
+          expect(res.body.article.title).to.equal(usefulData.articles[0].title);
+        });
+    });
+    it('sends back a 400 error status when given invalid id', () => {
+      return request(app)
+        .get('/api/articles/1')
+        .expect(400)
+        .then(res => {
+          const {message} = res.body;
+          expect(message).to.eql( 'ARTICLE_ID NOT FOUND');
         });
     });
   });
@@ -41,10 +62,10 @@ describe('API', () => {
           expect(res.body.comments[0].body).to.be.a('string');
         });
     });
-    it('sends back a 404 error status when given invalid id', () => {
+    it('sends back a 400 error status when given invalid id', () => {
       return request(app)
         .get('/api/articles/1/comments')
-        .expect(404)
+        .expect(400)
         .then(res => {
           const {message} = res.body;
           expect(message).to.eql( 'ARTICLE_ID NOT FOUND');
