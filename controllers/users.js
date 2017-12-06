@@ -6,7 +6,7 @@ mongoose.Promise = Promise;
 function getUserInfo(req, res, next) {
   Users.find({ username: req.params.username })
     .then((profileData) => {
-      if(profileData.length === 0) return next({status: 404, message: 'USERNAME NOT FOUND'});
+      if(profileData.length === 0) return next({status: 400, message: 'USERNAME NOT FOUND'});
       res.status(200).send({profileData});
     })
     .catch(err => {

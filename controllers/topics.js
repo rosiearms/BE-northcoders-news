@@ -14,7 +14,7 @@ function getTopics(req, res, next) {
 function getArticlesByTopic(req, res, next) {
   Articles.find({ belongs_to: req.params.topic_id })
     .then((articles) => {
-      if(articles.length === 0) return next({status: 404, message: 'TOPIC NOT FOUND'});
+      if(articles.length === 0) return next({status: 400, message: 'TOPIC NOT FOUND'});
       res.status(200).send({articles});
     })
     .catch(err => {

@@ -140,10 +140,10 @@ describe('API', () => {
           expect(res.body.articles[0].belongs_to).to.eql(usefulData.articles[1].belongs_to);
         });
     });
-    it('sends back a 404 error status when given invalid topic', () => {
+    it('sends back a 400 error status when given invalid topic', () => {
       return request(app)
         .get('/api/topics/food/articles')
-        .expect(404)
+        .expect(400)
         .then(res => {
           const {message} = res.body;
           expect(message).to.eql( 'TOPIC NOT FOUND');
@@ -163,10 +163,10 @@ describe('API', () => {
           expect(res.body.profileData[0]).to.be.an('object');
         });
     });
-    it('sends back a 404 error status when given invalid username', () => {
+    it('sends back a 400 error status when given invalid username', () => {
       return request(app)
         .get('/api/users/notausername')
-        .expect(404)
+        .expect(400)
         .then(res => {
           const {message} = res.body;
           expect(message).to.eql( 'USERNAME NOT FOUND');
