@@ -144,7 +144,6 @@ describe('API', () => {
           expect(res.body.topics).to.be.an('array');
           expect(res.body.topics.length).to.equal(usefulData.topics.length);
           expect(res.body.topics[0].slug).to.be.a('string');
-          expect(res.body.topics[0].slug).to.eql(usefulData.topics[0].slug);
         });
     });
   });
