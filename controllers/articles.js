@@ -36,6 +36,7 @@ function putArticleVote(req, res, next) {
 function getArticleComments(req, res, next) {
   Comments.find({ belongs_to: req.params.article_id })
     .then((comments) => {
+      if(comments.length === 0) return next({status: 404, message: 'No Comments Found'});
       res.send({ comments });
     })    
     .catch(err => {

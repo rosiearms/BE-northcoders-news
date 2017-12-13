@@ -51,7 +51,7 @@ describe('API', () => {
     });
   });
 
-  describe('GET /articles/:article_id/comments', () => {
+  describe.only('GET /articles/:article_id/comments', () => {
     it('sends back the correct object with a status code of 200', () => {
       return request(app)
         .get(`/api/articles/${usefulData.articles[0]._id}/comments`)
@@ -71,6 +71,15 @@ describe('API', () => {
           expect(message).to.eql( 'ARTICLE_ID NOT FOUND');
         });
     });
+    it('sends back a 404 error status when given a valid id but no comments are found', () => {
+      return request(app)
+        .get('/api/articles/5a313caaf3c638299d713e9d/comments')
+        .expect(404)
+        .then(res => {
+          const {message} = res.body;
+          expect(message).to.eql( 'No Comments Found');
+        });
+    });    
   });
 	
   describe('POST api/articles/:article_id/comments', () => {
