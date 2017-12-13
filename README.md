@@ -6,9 +6,17 @@ This repo contains all of the back-end code for the Northcoders News project - a
 
 Before running the front end you need to make sure the database is seeded and you are connected. Please follow the instructions below.
 
+Minimum Versions:
+
+- Node.js - 8.3 +
+- MongoDB - 2.6 +
+- Express - 4.14 +
+- Mongoose - 4.7 +
+
+
 # System Setup
 
-- Make sure you have node installed.
+- Make sure you have at least the minimum version of node installed, as specified above.     
 
 ```node -v``` 
 
@@ -22,7 +30,7 @@ If you have it installed, this will tell you the version. If you don't, run the 
 
 ```npm install npm```
 
-- Install MongoDB if you do not already have it. Installation instructions can be found here: https://docs.mongodb.com/manual/installation/
+- Install MongoDB, if you do not already have it. Installation instructions can be found here: https://docs.mongodb.com/manual/installation/
 
 # Project Setup
 
