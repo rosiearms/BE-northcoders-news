@@ -14,7 +14,7 @@ function getArticles(req, res, next) {
 function getSingleArticle(req, res, next) {
   Articles.findById(req.params.article_id)
     .then(article => {
-      if(article.length === 0) return next ({status: 404, message: 'No Article Found'})
+      if(article.length === 0) return next ({status: 404, message: 'No Article Found'});
       res.send({article});
     })
     .catch(err => {

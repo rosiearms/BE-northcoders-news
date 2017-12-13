@@ -51,7 +51,7 @@ describe('API', () => {
     });
   });
 
-  describe.only('GET /articles/:article_id/comments', () => {
+  describe('GET /articles/:article_id/comments', () => {
     it('sends back the correct object with a status code of 200', () => {
       return request(app)
         .get(`/api/articles/${usefulData.articles[0]._id}/comments`)
@@ -184,13 +184,13 @@ describe('API', () => {
           expect(res.body.profileData[0]).to.be.an('object');
         });
     });
-    it('sends back a 400 error status when given invalid username', () => {
+    it('sends back a 404 error status when username brings back no info', () => {
       return request(app)
         .get('/api/users/notausername')
-        .expect(400)
+        .expect(404)
         .then(res => {
           const {message} = res.body;
-          expect(message).to.eql( 'USERNAME NOT FOUND');
+          expect(message).to.eql( 'User info not found');
         });
     });
   });
